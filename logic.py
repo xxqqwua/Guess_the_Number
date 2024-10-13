@@ -19,6 +19,11 @@ def medium_level():
 
 
 def easy_level():
+    if number_to_guess > 50:
+        print('First hint: The number is higher than 50')
+    else:
+        print('First hint: The number is lower than 50')
+
     while True:
         user_guess = int(input('Enter your guess: '))
 
@@ -33,7 +38,6 @@ def easy_level():
 
 #  Choose difficulty
 user_level = input('Choose a difficulty. Type "easy", "hard" or "medium": ').lower()
-print(user_level)
 if user_level == 'easy':
     easy_level()
 elif user_level == 'hard':
