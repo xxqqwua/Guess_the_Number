@@ -6,7 +6,43 @@ from threading import Thread
 
 # custom level
 def custom_level():
-    pass
+    max_number = int(input('Enter the maximum number to guess: '))
+    number_to_guess = random.randint(1, max_number)
+
+    max_tries = int(input('Enter the maximum number of tries: '))
+    numbers_of_tries = 0
+
+    max_time = int(input('Enter the maximum time in seconds to answer: '))
+    answer = False
+
+    if number_to_guess > 150:
+        print('First hint: The number is higher than 150')
+    else:
+        print('First hint: The number is lower than 150')
+
+    def countdown():
+        time.sleep(10)
+        if not answer:
+            print('Time is up!')
+            print('The number was:', number_to_guess)
+            sys.exit()
+
+    t = Thread(target=countdown)
+    t.start()
+    print('You have 10 seconds to answer')
+    while numbers_of_tries < max_tries:
+        user_guess = int(input('Enter your guess: '))
+
+        if user_guess < number_to_guess:
+            print('Higher')
+        elif user_guess > number_to_guess:
+            print('Lower')
+        else:
+            print('You guessed it!')
+            answer = True
+            break
+        numbers_of_tries += 1
+        print(f'You have {max_tries - numbers_of_tries} tries left')
 
 
 # hard level

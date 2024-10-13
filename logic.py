@@ -15,5 +15,7 @@ elif user_level == 'hard':
     hard_level()
 elif user_level == 'medium':
     medium_level()
+elif user_level == 'custom':
+    custom_level()
 else:
     print('Invalid input')
