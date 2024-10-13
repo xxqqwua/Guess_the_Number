@@ -15,13 +15,13 @@ def custom_level():
     max_time = int(input('Enter the maximum time in seconds to answer: '))
     answer = False
 
-    if number_to_guess > 150:
-        print('First hint: The number is higher than 150')
+    if number_to_guess > max_number/2:
+        print(f'First hint: The number is higher than {max_number/2}')
     else:
-        print('First hint: The number is lower than 150')
+        print(f'First hint: The number is lower than {max_number/2}')
 
     def countdown():
-        time.sleep(10)
+        time.sleep(max_time)
         if not answer:
             print('Time is up!')
             print('The number was:', number_to_guess)
@@ -29,7 +29,7 @@ def custom_level():
 
     t = Thread(target=countdown)
     t.start()
-    print('You have 10 seconds to answer')
+    print(f'You have {max_time} seconds to answer')
     while numbers_of_tries < max_tries:
         user_guess = int(input('Enter your guess: '))
 

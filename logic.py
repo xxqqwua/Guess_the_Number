@@ -8,7 +8,7 @@ print('The programme guesses a number, by answering the programme Higher or Lowe
 
 
 #  Choose difficulty
-user_level = input('Choose a difficulty. Type "easy", "hard" or "medium": ').lower()
+user_level = input('Choose a difficulty. Type "easy", "medium", "hard" or "custom": ').lower()
 if user_level == 'easy':
     easy_level()
 elif user_level == 'hard':
