@@ -1,5 +1,7 @@
+from logic import choose_difficulty
+
 def main():
-    pass
+    choose_difficulty()
 
 
 if __name__ == '__main__':

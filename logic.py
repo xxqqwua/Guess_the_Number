@@ -8,14 +8,15 @@ print('The programme guesses a number, by answering the programme Higher or Lowe
 
 
 #  Choose difficulty
-user_level = input('Choose a difficulty. Type "easy", "medium", "hard" or "custom": ').lower()
-if user_level == 'easy':
-    easy_level()
-elif user_level == 'hard':
-    hard_level()
-elif user_level == 'medium':
-    medium_level()
-elif user_level == 'custom':
-    custom_level()
-else:
-    print('Invalid input')
+def choose_difficulty():
+    user_level = input('Choose a difficulty. Type "easy", "medium", "hard" or "custom": ').lower()
+    if user_level == 'easy':
+        easy_level()
+    elif user_level == 'hard':
+        hard_level()
+    elif user_level == 'medium':
+        medium_level()
+    elif user_level == 'custom':
+        custom_level()
+    else:
+        print('Invalid input')
