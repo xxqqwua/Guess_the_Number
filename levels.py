@@ -1,126 +1,92 @@
 import random
 import time
-import sys
+import os
 from threading import Thread
+
+
+def play(max_number, max_tries, max_time):
+    number_to_guess = random.randint(1, max_number)
+    half_max_number = max_number // 2
+    numbers_of_tries = 0
+    answer = False
+
+    if number_to_guess > half_max_number:
+        print(f'Hint: The number is higher than {half_max_number}')
+    else:
+        print(f'Hint: The number is lower than {half_max_number}')
+
+    if max_time == 0:
+        max_time = 999999999
+
+    if max_tries == 0:
+        max_tries = 999999999
+
+    def time_to_answer():
+        time.sleep(max_time)
+        if not answer:
+            print('\nTime is up!')
+            print('The number was:', number_to_guess)
+            os._exit(0)
+
+    t = Thread(target=time_to_answer)
+    t.start()
+
+    if max_time != 999999999:
+        print(f'You have {max_time} seconds to say the guessed number')
+
+
+    while numbers_of_tries < max_tries:
+        try:
+            user_guess = int(input('Enter your guess: '))
+        except ValueError:
+            print('Invalid input! Please enter a number.')
+            continue
+
+        if user_guess < number_to_guess:
+            print('Higher')
+        elif user_guess > number_to_guess:
+            print('Lower')
+        else:
+            print('You guessed it!')
+            answer = True
+            break
+        numbers_of_tries += 1
+
+        if max_tries != 999999999:
+            print(f'You have {max_tries - numbers_of_tries} tries left')
+            if max_tries - numbers_of_tries == 0:
+                print('You lost, the number was:', number_to_guess)
+                os._exit(0)
 
 
 # custom level
 def custom_level():
-    max_number = int(input('Enter the maximum number to guess: '))
-    number_to_guess = random.randint(1, max_number)
+    def get_user_input(prompt, input_type=int, default_value=None):
+        while True:
+            try:
+                user_input = input(prompt)
+                if user_input == '' and default_value is not None:
+                    return default_value
+                return input_type(user_input)
+            except ValueError:
+                print(f'Invalid input! Please enter a number.')
 
-    max_tries = int(input('Enter the maximum number of tries: '))
-    numbers_of_tries = 0
-
-    max_time = int(input('Enter the maximum time in seconds to answer: '))
-    answer = False
-
-    if number_to_guess > max_number/2:
-        print(f'First hint: The number is higher than {max_number/2}')
-    else:
-        print(f'First hint: The number is lower than {max_number/2}')
-
-    def countdown():
-        time.sleep(max_time)
-        if not answer:
-            print('Time is up!')
-            print('The number was:', number_to_guess)
-            sys.exit()
-
-    t = Thread(target=countdown)
-    t.start()
-    print(f'You have {max_time} seconds to answer')
-    while numbers_of_tries < max_tries:
-        user_guess = int(input('Enter your guess: '))
-
-        if user_guess < number_to_guess:
-            print('Higher')
-        elif user_guess > number_to_guess:
-            print('Lower')
-        else:
-            print('You guessed it!')
-            answer = True
-            break
-        numbers_of_tries += 1
-        print(f'You have {max_tries - numbers_of_tries} tries left')
+    max_number = get_user_input('Enter the maximum number: ')
+    max_tries = get_user_input('Enter the maximum number of tries (0 - infinite): ')
+    max_time = get_user_input('Enter the maximum time (0 - infinite): ')
+    play(max_number, max_tries, max_time)
 
 
 # hard level
 def hard_level():
-    number_to_guess = random.randint(1, 300)
-    numbers_of_tries = 0
-    answer = False
+    play(300, 8, 15)
 
-    if number_to_guess > 150:
-        print('First hint: The number is higher than 150')
-    else:
-        print('First hint: The number is lower than 150')
-
-    def countdown():
-        time.sleep(10)
-        if not answer:
-            print('Time is up!')
-            print('The number was:', number_to_guess)
-            sys.exit()
-
-
-    t = Thread(target=countdown)
-    t.start()
-    print('You have 10 seconds to answer')
-    while numbers_of_tries < 8:
-        user_guess = int(input('Enter your guess: '))
-
-        if user_guess < number_to_guess:
-            print('Higher')
-        elif user_guess > number_to_guess:
-            print('Lower')
-        else:
-            print('You guessed it!')
-            answer = True
-            break
-        numbers_of_tries += 1
-        print(f'You have {9 - numbers_of_tries} tries left')
 
 # medium level
 def medium_level():
-    number_to_guess = random.randint(1, 200)
-    numbers_of_tries = 0
-
-    if number_to_guess > 100:
-        print('First hint: The number is higher than 100')
-    else:
-        print('First hint: The number is lower than 100')
-
-    while numbers_of_tries < 10:
-        user_guess = int(input('Enter your guess: '))
-
-        if user_guess < number_to_guess:
-            print('Higher')
-        elif user_guess > number_to_guess:
-            print('Lower')
-        else:
-            print('You guessed it!')
-            break
-        numbers_of_tries += 1
-        print(f'You have {11 - numbers_of_tries} tries left')
+    play(200, 10, 0)
 
 
 # easy level
 def easy_level():
-    number_to_guess = random.randint(1, 100)
-
-    if number_to_guess > 50:
-        print('First hint: The number is higher than 50')
-    else:
-        print('First hint: The number is lower than 50')
-
-    while True:
-        user_guess = int(input('Enter your guess: '))
-
-        if user_guess < number_to_guess:
-            print('Higher')
-        elif user_guess > number_to_guess:
-            print('Lower')
-        else:
-            print('You guessed it!')
-            break
+    play(100, 0, 0)
